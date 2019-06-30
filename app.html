@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Piskel Clone</title>
+      <script src="https://cdn.firebase.com/libs/firebaseui/4.0.0/firebaseui.js"></script>
+      <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/4.0.0/firebaseui.css" />
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+      <link rel="stylesheet" type="text/css" href="src/stylesheets/style.css">
+      </head>
+
+  <body>
+
+  <header class="header">
+      <!-- NAVBAR -->
+      <nav class="z-depth-0 grey lighten-4">
+      <div class="nav-wrapper container">
+        <a href="#" class="brand-logo">
+          <img src="src/pictures/logo_transparent_small_compact.png" style="width: 180px; margin-top: 10px; background-color: #000000; border: 1px solid #000000">
+        </a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li class="logged-in" style="display: none;">
+              <a href="#" class="grey-text modal-trigger" data-target="modal-account">Account</a>
+            </li>
+            <li class="logged-in" style="display: none;">
+              <a href="#" class="grey-text" id="logout">Logout</a>
+            </li>
+            <li class="logged-out" style="display: none;">
+              <a href="#" class="grey-text modal-trigger" data-target="modal-login">Login</a>
+            </li>
+            <li class="logged-out" style="display: none;">
+              <a href="#" class="grey-text modal-trigger" data-target="modal-signup">Sign up</a>
+            </li>
+          </span>
+        </ul>
+      </div>
+    </nav>
+    <!-- SIGN UP MODAL -->
+    <div id="modal-signup" class="modal">
+      <div class="modal-content">
+        <h4>Sign up</h4><br />
+        <form id="signup-form">
+          <div class="input-field">
+            <input type="email" id="signup-email" required />
+            <label for="signup-email">Email address</label>
+          </div>
+          <div class="input-field">
+            <input type="password" id="signup-password" required />
+            <label for="signup-password">Choose password</label>
+          </div>
+          <button class="btn yellow darken-2 z-depth-0">Sign up</button>
+        </form>
+      </div>
+    </div>
+    <!-- LOGIN MODAL -->
+    <div id="modal-login" class="modal">
+      <div class="modal-content">
+        <h4>Login</h4><br />
+        <form id="login-form">
+          <div class="input-field">
+            <input type="email" id="login-email" required />
+            <label for="login-email">Email address</label>
+          </div>
+          <div class="input-field">
+            <input type="password" id="login-password" required />
+            <label for="login-password">Your password</label>
+          </div>
+          <button class="btn yellow darken-2 z-depth-0">Login</button>
+        </form>
+      </div>
+    </div>
+    <!-- ACCOUNT MODAL -->
+    <div id="modal-account" class="modal">
+      <div class="modal-content center-align">
+        <h4>Account details</h4><br />
+        <div class="account-details"></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+      <article class="main-workspace">
+          <section class="main-workspace-tools">
+              <div class="main-workspace-tools-wrapper">
+              <div class="pen-size-tool-wrapper">
+                <div class="pen-size-tool" data-size="32">2</div>
+                <div class="pen-size-tool" data-size="48">3</div>
+                <div class="pen-size-tool" data-size="64">4</div>
+              </div>
+                  <ul class="tools-items">
+                    <li class="tools">
+                      <button class="tools-button tools-button-active" id="pensil" data-tool="pensil">
+                        <img src="src/pictures/pencil-alt-solid.svg" alt="" class="tools-icon">
+                      </button>
+                    </li>
+                    <li class="tools">
+                      <button class="tools-button" id="color_picker" data-tool="color_picker">
+                        <img src="src/pictures/eye-dropper-solid.svg" alt="" class="tools-icon">
+                      </button>
+                    </li>
+                    <li class="tools">
+                      <button class="tools-button" id="eraser" data-tool="eraser">
+                        <img src="src/pictures/eraser-solid.svg" alt="" class="tools-icon">
+                      </button>
+                    </li>
+                    <li class="tools"></li>
+                      <button class="tools-button" id="bucket" data-tool="bucket">
+                        <img src="src/pictures/fill-drip-solid.svg" alt="" class="tools-icon">
+                    </button>
+                    </li>
+                  </ul>
+              </div>
+          </section>
+
+          <section class="secondary-workspace-tools">
+            <section class="canvas-wrapper">
+              <div class="canvas" id="frames">
+              </div>
+            </section>
+              <button class="add-frame-btn" id="add-frame-btn">Add frame</button>
+          </section>
+
+          <section class="color">
+              <div class="color-wrapper">
+                  <input class="colors-display" id="chosen_color" type="color" value="#000000">
+                  <input class="colors-display" id="previous_color" type="color" value="#F00F00">
+
+                <ul class="colors">
+                  <li class="tools"></li>
+                      <button class="tools-button" id="myBtn">
+                        <img src="src/pictures/keyboard-regular.svg" alt="" class="tools-icon">
+                    </button>
+                  </li>
+                </ul>
+              </div>
+
+              <div id="myModal" class="modal-key">
+                  <!-- Modal content -->
+                  <div class="modal-content-key">
+                    <div class="modal-header-key">
+                      <span class="close-key">&times;</span>
+                      <h4>Keyboard shortcuts</h4>
+                    </div>
+                    <div class="modal-body-key">
+                      <p>Pensil - P</p>
+                      <p>Eraser - E</p>
+                    </div>
+                  </div>
+                </div>
+
+          </section>
+
+
+          <div class="mainCanvas">
+
+            <canvas id='myCanvas' width="640px" height="640px"/>
+          </div>
+
+          <section class="preview">
+            <canvas id="preview"></canvas>
+            <input type="range" min="1" max="24" value="5" id="fpsRange">
+            <div class="coordinates">Cursor coordinates: <div id='cursor-coordinates'></div>  </div>
+            <div class="coordinates">Canvas size: <div id='canvas-size'></div>  </div>
+          </section>
+
+      </article>
+
+
+
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-firestore.js"></script>
+
+        <script>
+          // Your web app's Firebase configuration
+          var firebaseConfig = {
+            apiKey: "AIzaSyDvvqc85P50xSeF6XfnfkV_e5weOHGE2Ag",
+            authDomain: "piskel-clone-e0819.firebaseapp.com",
+            databaseURL: "https://piskel-clone-e0819.firebaseio.com",
+            projectId: "piskel-clone-e0819",
+            storageBucket: "piskel-clone-e0819.appspot.com",
+            messagingSenderId: "562510526059",
+            appId: "1:562510526059:web:8743259c48fe4962"
+          };
+          // Initialize Firebase
+          firebase.initializeApp(firebaseConfig);
+
+          // make auth and firestore references
+          const auth = firebase.auth();
+          const db = firebase.firestore();
+
+            // update firestore settings
+            db.settings({ timestampsInSnapshots: true });
+        </script>
+
+          <!-- Compiled and minified JavaScript -->
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+          <script type="module" src="src/scripts/index.js"></script>
+          <script type="module" src="src/scripts/auth.js"></script>
+          <script type="module" src="src/scripts/animations.js"></script>
+          <script type="module" src="src/scripts/tools.js"></script>
+          <script type="module" src="src/scripts/key.js"></script>
+        <footer></footer>
+    </body>
+</html>
